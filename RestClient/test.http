@@ -1,0 +1,39 @@
+
+###
+POST http://localhost:5218/auth/getToken HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "password": "123"
+}
+
+###
+POST http://localhost:5218/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "sample",
+    "password": "123"
+}
+
+
+###
+GET http://localhost:5218/task/empty_dishwasher2 HTTP/1.1
+Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+
+###
+GET http://localhost:5218/tasks HTTP/1.1
+Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+
+
+###
+POST http://localhost:5218/task HTTP/1.1
+Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+content-type: application/json
+
+{
+    "name": "empty_dishwasher2",
+    "description": "Empty the dishwasher and put everything away.",
+    "priority": "low"
+}
