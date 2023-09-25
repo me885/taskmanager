@@ -36,14 +36,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Change to ui directory
-      run: cd task-manager-ui
-
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        cache-dependency-path: task-manager-ui/package-lock.json
 
     - name: npm install, build, and test
       run: |
