@@ -12,7 +12,7 @@ public interface ITaskDatabase
 
     public Task DeleteTask(string name, Guid userId);
 
-    public Task<TaskItem?> UpdateTask(TaskItemDto newTask, Guid userId);
+    public Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId);
 }
 
 public class TaskDatabase : ITaskDatabase
@@ -37,7 +37,7 @@ public class TaskDatabase : ITaskDatabase
         throw new NotImplementedException();
     }
 
-    public Task<TaskItem?> UpdateTask(TaskItemDto newTask, Guid userId)
+    public Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId)
     {
         throw new NotImplementedException();
     }
@@ -93,19 +93,18 @@ public class InMemoryTaskDb : ITaskDatabase
         return;
     }
 
-    public async Task<TaskItem?> UpdateTask(TaskItemDto newTask, Guid userId)
+    public async Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId)
     {
         await Task.CompletedTask;
-        var existingTask = db
-            .Where(x => x.name == newTask.name && x.ownerId == userId)
-            .SingleOrDefault();
+        var existingTaskIndex = db
+            .FindIndex(x => x.name == currentTaskName && x.ownerId == userId);
 
-        if(existingTask is null)
+        if(existingTaskIndex == -1)
         {
             return null;
         }
 
-        existingTask = existingTask with 
+        db[existingTaskIndex] = db[existingTaskIndex] with 
         { 
             name = newTask.name,
             description = newTask.description,
@@ -113,6 +112,11 @@ public class InMemoryTaskDb : ITaskDatabase
             deadline = newTask.deadline
         };
 
-        return await Task.FromResult(existingTask);
+        return await Task.FromResult(db[existingTaskIndex]);
+    }
+
+    public void Empty()
+    {
+        db = new List<TaskItem>();
     }
 }

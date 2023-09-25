@@ -8,13 +8,13 @@ public record TaskItem(
     string description,
     Guid ownerId,
     TaskPriority priority,
-    DateTime? deadline);
+    DateTime? deadline = null);
 
 public record TaskItemDto(
     string name,
     string description,
     TaskPriority priority,
-    DateTime? deadline);
+    DateTime? deadline = null);
 
 
 [JsonConverter(typeof(JsonStringEnumConverter))]

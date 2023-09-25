@@ -1,3 +1,9 @@
+@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjlmMjI4YjA4LWExZTMtNGM1ZC05NTliLWZhMDA0NzhjMDIwMyIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1NjQyMjc4LCJleHAiOjE2OTU2NjM4NzgsImlhdCI6MTY5NTY0MjI3OCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.Kfvds3-rDbYxJZGeE_unTc3sosPSswve8dkd0PNG6WIrFgpIRn19F1khwYROmurTaRnUZs9JX3YCVPXBgyriWA
+
+@url = https://taskmanager-todo.azurewebsites.net
+@localUrl = http://localhost:5218/
+
+
 
 ###
 POST http://localhost:5218/auth/getToken HTTP/1.1
@@ -19,17 +25,28 @@ content-type: application/json
 
 
 ###
-GET http://localhost:5218/task/empty_dishwasher2 HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+GET https://taskmanager-todo.azurewebsites.net/task/empty_dishwasher2 HTTP/1.1
+Authorization: Bearer {{authToken}}
 
 ###
 GET http://localhost:5218/tasks HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+Authorization:Bearer {{authToken}}
 
 
 ###
 POST http://localhost:5218/task HTTP/1.1
-Authorization:Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImYwYTMwYzNhLWRlNWItNDliNi04ODU2LTBjOThmZDM5M2FiYiIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1MzkyNDk0LCJleHAiOjE2OTU0MTQwOTQsImlhdCI6MTY5NTM5MjQ5NCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.nLUWjttukbuuZGNYbsg9tk6sGHnU5mp9GYbDj2FjU6a0tEaoyGk6znbkZPxFZHlB__yQfeIOyR2lHEYxxcyxSw
+Authorization: Bearer {{authToken}}
+content-type: application/json
+
+{
+    "name": "empty_dishwasher2",
+    "description": "Empty the dishwasher and put everything away.",
+    "priority": "low"
+}
+
+###
+PUT http://localhost:5218/task/empty_dishwasher2 HTTP/1.1
+Authorization: Bearer {{authToken}}
 content-type: application/json
 
 {

@@ -23,7 +23,7 @@ public class AuthHandler
         }
 
         var user = await userDatabase.InsertNewUser(loginDetails);
-        return Results.Ok(user);
+        return Results.Ok();
     }
 
     public async Task<IResult> GetToken(string userName, string password, ConfigurationManager config)
@@ -72,7 +72,7 @@ public class AuthHandler
         var jwtToken = jwtTokenHandler.WriteToken(token);
 
         await Task.CompletedTask;
-        return Results.Ok(jwtToken);
+        return Results.Ok(new TokenResponse(jwtToken));
     }
 
     private bool IsInvalidUserLogin(User? user, string password)

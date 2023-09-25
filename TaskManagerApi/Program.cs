@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerApi;
 using TaskManagerApi.DataModels;
+using TaskManagerApi.Extensions;
 using TaskManagerApi.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,25 +58,40 @@ app.UseAuthorization();
 
 
 //Task management endpoints
-app.MapGet("/task/{name}",
+app.MapGet("/task/{name}", [Authorize]
 (
     [FromRoute] string name,
     [FromServices] TaskHandler handler,
     ClaimsPrincipal principal
 ) => handler.Get(name, principal.GetUserIdFromClaims()));
 
-app.MapGet("/tasks",
+app.MapGet("/tasks", [Authorize]
 (
     [FromServices] TaskHandler handler,
     ClaimsPrincipal principal
 ) => handler.GetAll(principal.GetUserIdFromClaims()));
 
-app.MapPost("/task",
+app.MapPost("/task", [Authorize]
 (
     [FromBody] TaskItemDto task,
     [FromServices] TaskHandler handler,
     ClaimsPrincipal principal
 ) => handler.Create(task, principal.GetUserIdFromClaims()));
+
+app.MapPut("/task/{name}", [Authorize]
+(
+    [FromRoute] string name,
+    [FromBody] TaskItemDto task,
+    [FromServices] TaskHandler handler,
+    ClaimsPrincipal principal
+) => handler.Update(name, task, principal.GetUserIdFromClaims()));
+
+app.MapDelete("/task/{name}", [Authorize]
+(
+    [FromRoute] string name,
+    [FromServices] TaskHandler handler,
+    ClaimsPrincipal principal
+) => handler.Delete(name, principal.GetUserIdFromClaims()));
 
 
 //Auth endpoints
@@ -96,12 +112,4 @@ app.Run();
 public partial class Program
 { }
 
-
-static class ClaimsExtensions
-{
-    public static Guid GetUserIdFromClaims(this ClaimsPrincipal claimsPrincipal)
-    {
-        return Guid.Parse(claimsPrincipal.Claims.Single(x => x.Type == "Id").Value);
-    }
-}
 

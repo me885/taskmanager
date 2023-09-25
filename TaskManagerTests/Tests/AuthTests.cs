@@ -8,12 +8,12 @@ using TaskManagerApi.DataModels;
 
 namespace TaskManagerTests;
 
-public class TaskTests : IClassFixture<WebApplicationFactory<Program>>
+public class AuthTests : IClassFixture<WebApplicationFactory<Program>>, IDisposable
 {
     private readonly WebApplicationFactory<Program> _factory;
     private readonly HttpClient _httpClient;
 
-    public TaskTests(WebApplicationFactory<Program> factory)
+    public AuthTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory;
         _httpClient = factory.CreateClient();
@@ -28,8 +28,6 @@ public class TaskTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _httpClient.PostAsJsonAsync("/auth/register", loginDetails);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        CleanupFakeDb();
     }
 
     [Fact]
@@ -42,8 +40,6 @@ public class TaskTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Equal(HttpStatusCode.Conflict, response2.StatusCode);
-
-        CleanupFakeDb();
     }
 
     [Fact]
@@ -57,8 +53,6 @@ public class TaskTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _httpClient.PostAsJsonAsync("/auth/getToken", incorrectLoginDetails);
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
-
-        CleanupFakeDb();
     }
 
     [Fact]
@@ -71,17 +65,43 @@ public class TaskTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await _httpClient.PostAsJsonAsync("/auth/getToken", loginDetails);
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        CleanupFakeDb();
     }
 
-    private void CleanupFakeDb()
+    [Fact]
+    public async Task GetTasks_Returns401_WhenAuthHeaderIsInvaild()
+    {
+        _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer notValidToken");
+        var response = await _httpClient.GetAsync("/Tasks");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetTasks_Returns200_WhenAuthHeaderIsVaild()
+    {
+        var loginDetails = new LoginDetails("bob", "password123!");
+
+        await _httpClient.PostAsJsonAsync("/auth/register", loginDetails);
+
+        var getTokenResponse = await _httpClient.PostAsJsonAsync("/auth/getToken", loginDetails);
+
+        var token = $"Bearer {(await getTokenResponse.Content.ReadFromJsonAsync<TokenResponse>())!.token}";
+
+        _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+        var response = await _httpClient.GetAsync("/asks");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    public void Dispose()
     {
         using (var scope = _factory.Services.CreateScope())
         {
             var userDb = scope.ServiceProvider.GetService<IUserDatabase>();
+            var taskDb = scope.ServiceProvider.GetService<ITaskDatabase>();
             
            ((InMemoryUserDb) userDb!).Empty();
+           ((InMemoryTaskDb) taskDb!).Empty();
         }
     }
 }
