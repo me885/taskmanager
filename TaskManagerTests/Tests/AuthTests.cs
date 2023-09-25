@@ -88,7 +88,7 @@ public class AuthTests : IClassFixture<WebApplicationFactory<Program>>, IDisposa
         var token = $"Bearer {(await getTokenResponse.Content.ReadFromJsonAsync<TokenResponse>())!.token}";
 
         _httpClient.DefaultRequestHeaders.Add("Authorization", token);
-        var response = await _httpClient.GetAsync("/asks");
+        var response = await _httpClient.GetAsync("/tasks");
 
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
