@@ -14,7 +14,7 @@ function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Testing
         </a>
       </header>
     </div>
