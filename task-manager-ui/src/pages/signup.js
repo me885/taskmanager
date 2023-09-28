@@ -1,6 +1,4 @@
 import {Button, Container, TextField, Stack} from '@mui/material';
-
-
 import "./signup.css";
 
 
