@@ -43,6 +43,14 @@ builder.Services.AddAuthentication(o =>
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(builder => 
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+    }));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,6 +60,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -105,7 +114,7 @@ app.MapPost("/auth/getToken", [AllowAnonymous]
 (
     [FromBody] LoginDetails loginDetails,
     [FromServices] AuthHandler handler
-) => handler.GetToken(loginDetails.name, loginDetails.password, builder.Configuration));
+) => handler.GetToken(loginDetails, builder.Configuration));
 
 app.Run();
 

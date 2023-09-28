@@ -26,10 +26,10 @@ public class AuthHandler
         return Results.Ok();
     }
 
-    public async Task<IResult> GetToken(string userName, string password, ConfigurationManager config)
+    public async Task<IResult> GetToken(LoginDetails loginDetails, ConfigurationManager config)
     {
-        var user = await userDatabase.GetUser(userName);
-        if(IsInvalidUserLogin(user, password))
+        var user = await userDatabase.GetUser(loginDetails.name);
+        if(IsInvalidUserLogin(user, loginDetails.password))
         {
             return Results.Unauthorized();
         }
@@ -56,7 +56,7 @@ public class AuthHandler
             Subject = new ClaimsIdentity(new []
             {
                 new Claim("Id", user!.id.ToString()),
-                new Claim("UserName", userName),
+                new Claim("UserName", loginDetails.name),
             }),
             // the life span of the token needs to be shorter and utilise refresh token to keep the user signedin
             // but since this is a demo app we can extend it to fit our current need
