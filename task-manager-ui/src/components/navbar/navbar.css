@@ -1,0 +1,15 @@
+.navbar {
+    background-color: lightgray;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left-content {
+    max-width: 50%;
+}
+
+.right-content {
+    max-width: 50%;
+}

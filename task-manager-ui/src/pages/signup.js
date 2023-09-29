@@ -1,8 +1,16 @@
 import {Button, Container, TextField, Stack} from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import "./signup.css";
 
 
 const SignUp = () => {  
+
+    const navigate = useNavigate(); 
+    const handleExisitingAccount = () =>
+    {
+        navigate("/signin");
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
@@ -18,10 +26,20 @@ const SignUp = () => {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(signupObject),
+            mode: 'no-cors'
         })
-        .then(response => {
+        .then(async () => {
             document.getElementById("signup-form").reset()
-            console.log("success");
+
+            await fetch("https://taskmanager-todo.azurewebsites.net/auth/getToken", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(signupObject),
+                mode: 'no-cors'
+            })
+            .then(response => {
+                console.log(response.body)
+            })
         })
         .catch(error => {
             console.log(error)
@@ -32,7 +50,7 @@ const SignUp = () => {
     return (
         <Container className="signup-box">
             <Stack
-            id="signupForm"
+            id="signup-form"
             className="signup-stack"
             component="form"
             onSubmit={handleSubmit}
@@ -58,6 +76,13 @@ const SignUp = () => {
                     variant="contained"
                     color="primary">
                     Create Account
+                </Button>
+                <Button 
+                    className="signup-button"
+                    onClick={handleExisitingAccount}
+                    variant="outlined"
+                    color="primary">
+                    I already have an account
                 </Button>
             </Stack>
       </Container>
