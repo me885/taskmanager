@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerApi;
@@ -17,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<TaskHandler>();
 builder.Services.AddSingleton<AuthHandler>();
+builder.Services.AddSingleton<PasswordHasher<User>>();
 builder.Services.AddSingleton<ITaskDatabase, InMemoryTaskDb>();
 builder.Services.AddSingleton<IUserDatabase, InMemoryUserDb>();
 

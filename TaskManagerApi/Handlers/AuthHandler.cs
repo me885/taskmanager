@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerApi.DataModels;
 
@@ -9,10 +10,12 @@ namespace TaskManagerApi.Handlers;
 public class AuthHandler
 {
     private readonly IUserDatabase userDatabase;
+    private readonly PasswordHasher<User> passwordHasher;
 
-    public AuthHandler(IUserDatabase userDatabase)
+    public AuthHandler(IUserDatabase userDatabase, PasswordHasher<User> passwordHasher)
     {
         this.userDatabase = userDatabase;
+        this.passwordHasher = passwordHasher;
     }
 
     public async Task<IResult> Register(LoginDetails loginDetails)
@@ -22,7 +25,7 @@ public class AuthHandler
             return Results.Conflict($"Could not create user. The username '{loginDetails.name}' is already in use.");
         }
 
-        var user = await userDatabase.InsertNewUser(loginDetails);
+        await userDatabase.InsertNewUser(loginDetails with {password = passwordHasher.HashPassword(null!, loginDetails.password)});
         return Results.Ok();
     }
 
@@ -75,13 +78,13 @@ public class AuthHandler
         return Results.Ok(new TokenResponse(jwtToken));
     }
 
-    private bool IsInvalidUserLogin(User? user, string password)
+    private bool IsInvalidUserLogin(User? user, string passwordToVerify)
     {
         if(user is null)
         {
             return true;
         }
-        if(user.password != password)
+        if(passwordHasher.VerifyHashedPassword(user, user.password, passwordToVerify) == PasswordVerificationResult.Failed)
         {
             return true;
         }
