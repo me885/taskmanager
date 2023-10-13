@@ -26,7 +26,10 @@ const SignUp = () => {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(signupObject),
-            mode: 'no-cors'
+        })
+        .catch(error => {
+            console.log(error)
+            console.log("failed");
         })
         .then(async () => {
             document.getElementById("signup-form").reset()
@@ -35,15 +38,15 @@ const SignUp = () => {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(signupObject),
-                mode: 'no-cors'
             })
-            .then(response => {
-                console.log(response.body)
+            .then(async (response) => {
+                if(response.status === 200)
+                {
+                    localStorage.setItem("jwt", (await response.json()).token);
+                    document.getElementById("signup-form").reset()
+                    navigate("/");
+                }
             })
-        })
-        .catch(error => {
-            console.log(error)
-            console.log("failed");
         })
     };
   

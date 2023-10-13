@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import SigninButton from './signinButton';
 import SignupButton from './signupButton';
-import "./navbar.css";
-import { Router } from 'react-router-dom';
+import LogoutButton from './logoutButton';
 
+import "./navbar.css";
 
 
 const Navbar = () => {   
@@ -14,6 +14,7 @@ const Navbar = () => {
             </Box>
 
             <Box className="right-content">
+                <LogoutButton />
                 <SignupButton />
                 <SigninButton />
             </Box>
