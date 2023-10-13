@@ -1,12 +1,16 @@
 import { Box } from '@mui/material';
+import "./navbar.css";
 import SigninButton from './signinButton';
 import SignupButton from './signupButton';
 import LogoutButton from './logoutButton';
-
-import "./navbar.css";
+import { useContext } from 'react';
+import UserContext from '../../UserContext';
 
 
 const Navbar = () => {   
+
+    const currentUser = useContext(UserContext)
+    
     return (
         <Box className="navbar">
             <Box className="left-content">
@@ -14,9 +18,9 @@ const Navbar = () => {
             </Box>
 
             <Box className="right-content">
-                <LogoutButton />
-                <SignupButton />
-                <SigninButton />
+                {currentUser.isLoggedIn ? 
+                <LogoutButton /> :
+                <><SignupButton /><SigninButton /></> }
             </Box>
         </Box>
     )

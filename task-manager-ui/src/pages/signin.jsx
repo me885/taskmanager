@@ -1,10 +1,14 @@
 import {Button, Container, TextField, Stack} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import "./signup.css";
+import UserContext from '../UserContext';
+import { useContext } from 'react';
 
 
 const SignUp = () => {  
 
+    const {setLoggedInState} = useContext(UserContext)
+    
     const navigate = useNavigate(); 
     const handleExisitingAccount = () =>
     {
@@ -20,8 +24,6 @@ const SignUp = () => {
             password: formData.get("password"),
         }
 
-        console.log(loginObject);
-
         await fetch("https://taskmanager-todo.azurewebsites.net/auth/getToken", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -35,6 +37,7 @@ const SignUp = () => {
             if(response.status === 200)
             {
                 localStorage.setItem("jwt", (await response.json()).token);
+                setLoggedInState(true);
                 document.getElementById("login-form").reset()
                 navigate("/");
             }

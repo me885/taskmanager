@@ -1,9 +1,14 @@
 import {Button, Container, TextField, Stack} from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import UserContext from '../UserContext';
+import { useContext } from 'react';
+
 import "./signup.css";
 
 
 const SignUp = () => {  
+
+    const {setLoggedInState} = useContext(UserContext)
 
     const navigate = useNavigate(); 
     const handleExisitingAccount = () =>
@@ -43,6 +48,7 @@ const SignUp = () => {
                 if(response.status === 200)
                 {
                     localStorage.setItem("jwt", (await response.json()).token);
+                    setLoggedInState(true);
                     document.getElementById("signup-form").reset()
                     navigate("/");
                 }
