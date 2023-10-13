@@ -12,7 +12,7 @@ const SignUp = () => {
     const navigate = useNavigate(); 
     const handleExisitingAccount = () =>
     {
-        navigate("/signin");
+        navigate("/signup");
     }
 
     const handleSubmit = async (event) => {
