@@ -5,7 +5,7 @@ import UserContext from '../UserContext';
 import { useContext } from 'react';
 
 
-const SignUp = () => {  
+const SignIn= () => {  
 
     const {setLoggedInState} = useContext(UserContext)
     
@@ -86,4 +86,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp;
+export default SignIn;
