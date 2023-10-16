@@ -19,6 +19,24 @@ const TaskTable = () => {
       setOpen(true);
     }
 
+    const handleDeleteTask = async (taskName) => {
+        await fetch(`https://taskmanager-todo.azurewebsites.net/task/${taskName}`, {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
+        })
+        .catch(error => {
+            console.log(error)
+            console.log("failed");
+        })
+        .then(async (response) => {
+            if(response.status === 200)
+            {
+              setOpen(false)
+              window.location.reload();
+            }
+        })
+    }
+
     useEffect(() => {
         async function fetchTasks()
         {
@@ -60,7 +78,7 @@ const TaskTable = () => {
               <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 }, cursor: "pointer" }}
-                onClick={() => { handleEditTask(row); } }
+                onClick={() => { handleEditTask(row);}}
                 hover
               >
                 <TableCell component="th" scope="row">
@@ -69,7 +87,14 @@ const TaskTable = () => {
                 <TableCell align="right">{row.priority}</TableCell>
                 <TableCell align="right">{row.deadline}</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
-                <TableCell align="right"><Button size="small" variant="outlined">Complete</Button></TableCell>
+                <TableCell align="right">
+                  <Button 
+                  size="small" 
+                  variant="outlined" 
+                  onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleDeleteTask(row.name);}}>
+                    Complete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

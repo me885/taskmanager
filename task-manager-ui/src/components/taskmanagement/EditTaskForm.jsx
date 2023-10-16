@@ -39,7 +39,7 @@ const EditTaskForm = ({handleTaskSubmit, task, text: {headerText, buttonText}}) 
                 id="taskpriority" 
                 label="Task priority" 
                 name="taskpriority"
-                defaultValue={task.priority.toLowerCase()}
+                defaultValue={task.priority !== undefined ? task.priority.toLowerCase() : undefined}
                 style={{margin: 10}}
                 variant="outlined">
                 <MenuItem key="high" value="high">

@@ -31,6 +31,7 @@ const EditTaskModal = ({isOpen, setOpen, task}) =>
             if(response.status === 200)
             {
                 setOpen(false)
+                window.location.reload();
             }
         })
     }

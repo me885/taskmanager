@@ -41,6 +41,7 @@ const CreateTaskButton = () => {
             if(response.status === 200)
             {
                 setOpen(false)
+                window.location.reload();
             }
         })
     }
