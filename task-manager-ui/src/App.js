@@ -9,7 +9,7 @@ import Navbar from './components/navbar/navbar';
 import { useState } from 'react';
  
 function App() {
-    const [isLoggedIn, setLoggedInState] = useState(false)
+    const [isLoggedIn, setLoggedInState] = useState(sessionStorage.getItem("token") !== undefined)
 
     return (
     <BrowserRouter>

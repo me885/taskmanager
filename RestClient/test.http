@@ -1,4 +1,4 @@
-@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjlmMjI4YjA4LWExZTMtNGM1ZC05NTliLWZhMDA0NzhjMDIwMyIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk1NjQyMjc4LCJleHAiOjE2OTU2NjM4NzgsImlhdCI6MTY5NTY0MjI3OCwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.Kfvds3-rDbYxJZGeE_unTc3sosPSswve8dkd0PNG6WIrFgpIRn19F1khwYROmurTaRnUZs9JX3YCVPXBgyriWA
+@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjVhNzNmMmJlLTM4NGQtNDVhOS04ZjUwLTYyZTU2NTcyYzhlMSIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk3NDczMTQyLCJleHAiOjE2OTc0OTQ3NDIsImlhdCI6MTY5NzQ3MzE0MiwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.ZfbDXA90DTs_cr5E0FtiBGVgW-gxw7IRs0SdBLnnK2tedhsJ4W6FQ0gurKDEiM1KjsJiIrMz1dhlTLNp4WBc8w
 
 @url = https://taskmanager-todo.azurewebsites.net
 @localUrl = http://localhost:5218/
@@ -39,8 +39,9 @@ Authorization: Bearer {{authToken}}
 content-type: application/json
 
 {
-    "name": "empty_dishwasher2",
-    "description": "Empty the dishwasher and put everything away.",
+    "name": "sdf",
+    "description": "afesw",
+    "deadline": "10/16/2023 05:16 PM",
     "priority": "low"
 }
 
