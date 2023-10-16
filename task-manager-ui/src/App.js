@@ -9,8 +9,7 @@ import Navbar from './components/navbar/navbar';
 import { useState } from 'react';
  
 function App() {
-    console.log(sessionStorage.getItem("token"));
-    const [isLoggedIn, setLoggedInState] = useState(sessionStorage.getItem("token") !== null)
+    const [isLoggedIn, setLoggedInState] = useState(localStorage.getItem("jwt") !== null)
 
     return (
     <BrowserRouter>
