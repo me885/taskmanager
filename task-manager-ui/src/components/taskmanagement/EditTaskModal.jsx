@@ -11,7 +11,7 @@ const EditTaskModal = ({isOpen, setOpen, task}) =>
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
 
-        const task = {
+        const newTask = {
             name: formData.get("taskname"),
             description: formData.get("taskdescription"),
             deadline: dayjs(formData.get("taskdeadline")).toISOString(),
@@ -21,7 +21,7 @@ const EditTaskModal = ({isOpen, setOpen, task}) =>
         await fetch(`https://taskmanager-todo.azurewebsites.net/task/${task.name}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
-            body: JSON.stringify(task),
+            body: JSON.stringify(newTask),
         })
         .catch(error => {
             console.log(error)
