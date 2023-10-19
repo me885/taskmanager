@@ -54,7 +54,7 @@ public class TaskDatabase : ITaskDatabase
         var taskItem = new TaskItem(Guid.NewGuid(), task.name, task.description, userId, task.priority, task.deadline);
 
         await dbConnection.ExecuteAsync(
-            "INSERT INTO Users(UserId, Name, Password) VALUES(@id, @name, @description, @userId, @priority, @deadline, 0);",
+            "INSERT INTO Tasks(TaskId, Name, OwnerId, Description, Priority, Deadline, IsComplete) VALUES(@id, @name, @ownerId, @description, @priority, @deadline, @isComplete);",
             taskItem
         );
 
