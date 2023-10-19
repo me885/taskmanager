@@ -81,7 +81,7 @@ public class TaskDatabase : ITaskDatabase
                 newTask.description,
                 newTask.priority,
                 newTask.deadline,
-                newTask.isCompleted
+                newTask.isComplete
             }
         );
 

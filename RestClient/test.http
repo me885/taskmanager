@@ -1,4 +1,4 @@
-@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjVhNzNmMmJlLTM4NGQtNDVhOS04ZjUwLTYyZTU2NTcyYzhlMSIsIlVzZXJOYW1lIjoic2FtcGxlIiwibmJmIjoxNjk3NDczMTQyLCJleHAiOjE2OTc0OTQ3NDIsImlhdCI6MTY5NzQ3MzE0MiwiaXNzIjoiVGFza01hbmFnZXIiLCJhdWQiOiJUYXNrTWFuYWdlciJ9.ZfbDXA90DTs_cr5E0FtiBGVgW-gxw7IRs0SdBLnnK2tedhsJ4W6FQ0gurKDEiM1KjsJiIrMz1dhlTLNp4WBc8w
+@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIlVzZXJOYW1lIjoic2FtcGxlMiIsIm5iZiI6MTY5Nzc0NDc0MCwiZXhwIjoxNjk3NzY2MzQwLCJpYXQiOjE2OTc3NDQ3NDAsImlzcyI6IlRhc2tNYW5hZ2VyIiwiYXVkIjoiVGFza01hbmFnZXIifQ.e3aHTbK2Jr5TFn7icbSPJHyqeCYrCeXGq5tUkNvU_Knc-6AYQlpJPUb0rqxerFXagKnxEMff5uRbl_0oCJHCNg
 
 @url = https://taskmanager-todo.azurewebsites.net
 @localUrl = http://localhost:5218/
@@ -39,9 +39,9 @@ Authorization: Bearer {{authToken}}
 content-type: application/json
 
 {
-    "name": "sdf",
-    "description": "afesw",
-    "deadline": "10/16/2023 05:16 PM",
+    "name": "task",
+    "description": "wraqg",
+    "deadline": "2009-05-05T04:55:00.000Z",
     "priority": "low"
 }
 

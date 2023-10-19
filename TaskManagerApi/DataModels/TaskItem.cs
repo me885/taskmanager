@@ -9,7 +9,7 @@ public record TaskItem(
     Guid ownerId,
     TaskPriority priority,
     DateTime? deadline = null,
-    bool isCompleted = false)
+    bool isComplete = false)
 {
     private TaskItem() : this(default, default, default, default, default){}
 }
@@ -19,7 +19,7 @@ public record TaskItemDto(
     string description,
     TaskPriority priority,
     DateTime? deadline = null,
-    bool isCompleted = false);
+    bool isComplete = false);
 
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
