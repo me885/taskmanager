@@ -1,5 +1,6 @@
-
-using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using Dapper;
+using Microsoft.Data.SqlClient;
 using TaskManagerApi.DataModels;
 
 namespace TaskManagerApi;
@@ -17,19 +18,44 @@ public interface IUserDatabase
 
 public class UserDatabase : IUserDatabase
 {
+    private SqlConnection dbConnection;
+
+    public UserDatabase(SqlConnection connection)
+    {
+        dbConnection = connection;
+    }
+
     public Task DeleteUser(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<User?> GetUser(string userName)
+    public async Task<User?> GetUser(string userName)
     {
-        throw new NotImplementedException();
+        var result = await dbConnection.QueryAsync<User>("SELECT UserId, Name, Password, Email FROM Users WHERE Name=@name", new { name = userName});
+
+        return result.SingleOrDefault();
     }
 
-    public Task<User> InsertNewUser(LoginDetails loginDetails)
+    public async Task<User> InsertNewUser(LoginDetails loginDetails)
     {
-        throw new NotImplementedException();
+        var guid = Guid.NewGuid();
+        using (var command = dbConnection.CreateCommand())
+        {
+            command.CommandText = "INSERT INTO Users(UserId, Name, Password) VALUES(@userId, @username, @password);";
+            var userId = command.Parameters.Add("@userId", SqlDbType.UniqueIdentifier);
+            var username = command.Parameters.Add("@username", SqlDbType.VarChar);
+            var password = command.Parameters.Add("@password", SqlDbType.VarChar);
+
+            userId.Value = guid;
+            username.Value = loginDetails.name;
+            password.Value = loginDetails.password;
+
+            dbConnection.Open();
+            await command.ExecuteNonQueryAsync();
+        }
+
+        return new User(guid, loginDetails.name, loginDetails.password);
     }
 
     public Task<User?> UpdateUser(User user)

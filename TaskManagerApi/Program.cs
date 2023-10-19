@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagerApi;
 using TaskManagerApi.DataModels;
@@ -18,9 +19,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<TaskHandler>();
 builder.Services.AddSingleton<AuthHandler>();
+builder.Services.AddSingleton(x => new SqlConnection(builder.Configuration["dbConnectionString"]));
 builder.Services.AddSingleton<PasswordHasher<User>>();
-builder.Services.AddSingleton<ITaskDatabase, InMemoryTaskDb>();
-builder.Services.AddSingleton<IUserDatabase, InMemoryUserDb>();
+builder.Services.AddSingleton<ITaskDatabase, TaskDatabase>();
+builder.Services.AddSingleton<IUserDatabase, UserDatabase>();
 
 builder.Services.AddAuthentication(o =>
 {

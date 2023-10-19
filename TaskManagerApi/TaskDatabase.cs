@@ -1,3 +1,5 @@
+using Dapper;
+using Microsoft.Data.SqlClient;
 using TaskManagerApi.DataModels;
 
 namespace TaskManagerApi;
@@ -17,29 +19,73 @@ public interface ITaskDatabase
 
 public class TaskDatabase : ITaskDatabase
 {
-    public Task DeleteTask(string name, Guid userId)
+    private SqlConnection dbConnection;
+
+    public TaskDatabase(SqlConnection connection)
     {
-        throw new NotImplementedException();
+        dbConnection = connection;
+    }
+    
+    public async Task DeleteTask(string name, Guid userId)
+    {
+        await dbConnection.ExecuteAsync(
+            "DELETE FROM Tasks WHERE Name = @Name AND UserID = @UserId", 
+            new { Name = name, UserId = userId}
+        );
     }
 
-    public Task<TaskItem[]> GetAllTasks(Guid ownerId)
+    public async Task<TaskItem[]> GetAllTasks(Guid ownerId)
     {
-        throw new NotImplementedException();
+        var result = await dbConnection.QueryAsync<TaskItem>("SELECT * FROM Tasks");
+
+        return result.ToArray();
     }
 
-    public Task<TaskItem?> GetTaskByName(string name, Guid userId)
+    public async Task<TaskItem?> GetTaskByName(string name, Guid userId)
     {
-        throw new NotImplementedException();
+        return await dbConnection.QuerySingleOrDefaultAsync<TaskItem>(
+            "SELECT * FROM Tasks WHERE Name=@Name AND OwnerId=@UserId", 
+            new { Name = name, UserId = userId}
+        );
     }
 
-    public Task<TaskItem> InsertNewTask(TaskItemDto task, Guid userId)
+    public async Task<TaskItem> InsertNewTask(TaskItemDto task, Guid userId)
     {
-        throw new NotImplementedException();
+        var taskItem = new TaskItem(Guid.NewGuid(), task.name, task.description, userId, task.priority, task.deadline);
+
+        await dbConnection.ExecuteAsync(
+            "INSERT INTO Users(UserId, Name, Password) VALUES(@id, @name, @description, @userId, @priority, @deadline, 0);",
+            taskItem
+        );
+
+        return taskItem;
     }
 
-    public Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId)
+    public async Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId)
     {
-        throw new NotImplementedException();
+        var taskItem = await GetTaskByName(currentTaskName, userId);
+
+        if(taskItem is null) return null;
+
+        await dbConnection.ExecuteAsync(
+            """
+            Update Users 
+            SET Name = @NewName, Description = @description, Priority = @priority, Deadline = @deadline IsComplete = @isComplete
+            WHERE Name = @CurrentName AND UserId = @UserId
+            """,
+            new
+            {
+                CurrentName = currentTaskName,
+                UserId = userId,
+                NewName = newTask.name,
+                newTask.description,
+                newTask.priority,
+                newTask.deadline,
+                newTask.isCompleted
+            }
+        );
+
+        return taskItem;
     }
 }
 
