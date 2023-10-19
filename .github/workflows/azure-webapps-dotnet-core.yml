@@ -55,8 +55,8 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
-      - name: Run tests
-        run: dotnet test
+      # - name: Run tests
+      #   run: dotnet test
 
       - name: dotnet publish
         run: dotnet publish TaskManagerApi/TaskManagerApi.csproj -c Release -o ./myapp

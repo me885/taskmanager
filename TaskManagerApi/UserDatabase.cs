@@ -32,30 +32,16 @@ public class UserDatabase : IUserDatabase
 
     public async Task<User?> GetUser(string userName)
     {
-        var result = await dbConnection.QueryAsync<User>("SELECT UserId, Name, Password, Email FROM Users WHERE Name=@name", new { name = userName});
-
-        return result.SingleOrDefault();
+        return await dbConnection.QuerySingleOrDefaultAsync<User>("SELECT * FROM Users WHERE Name = @userName", new { userName});
     }
 
     public async Task<User> InsertNewUser(LoginDetails loginDetails)
     {
-        var guid = Guid.NewGuid();
-        using (var command = dbConnection.CreateCommand())
-        {
-            command.CommandText = "INSERT INTO Users(UserId, Name, Password) VALUES(@userId, @username, @password);";
-            var userId = command.Parameters.Add("@userId", SqlDbType.UniqueIdentifier);
-            var username = command.Parameters.Add("@username", SqlDbType.VarChar);
-            var password = command.Parameters.Add("@password", SqlDbType.VarChar);
+        var user = new User(Guid.NewGuid(), loginDetails.name, loginDetails.password);
+        
+        await dbConnection.ExecuteAsync("INSERT INTO Users(UserId, Name, Password) VALUES(@id, @name, @password);", user);
 
-            userId.Value = guid;
-            username.Value = loginDetails.name;
-            password.Value = loginDetails.password;
-
-            dbConnection.Open();
-            await command.ExecuteNonQueryAsync();
-        }
-
-        return new User(guid, loginDetails.name, loginDetails.password);
+        return user;
     }
 
     public Task<User?> UpdateUser(User user)
