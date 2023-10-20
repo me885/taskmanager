@@ -25,11 +25,11 @@ public class TaskHandler
         return Results.Ok(task.ToDto());
     }
 
-    public async Task<IResult> GetAll(Guid userId)
+    public async Task<IResult> GetAll(Guid userId, bool isComplete)
     {
         var tasks = await taskDatabase.GetAllTasks(userId);
 
-        return Results.Ok(tasks.Select(x => x.ToDto()));
+        return Results.Ok(tasks.Where(x => x.isComplete == isComplete).Select(x => x.ToDto()));
     }
 
     public async Task<IResult> Create(TaskItemDto task, Guid userId)

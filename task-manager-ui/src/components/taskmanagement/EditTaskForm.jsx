@@ -1,5 +1,5 @@
 import { Button, MenuItem, Stack, TextField, Typography } from "@mui/material"
-import { DateTimeField } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 const EditTaskForm = ({handleTaskSubmit, task, text: {headerText, buttonText}}) => {
@@ -52,12 +52,12 @@ const EditTaskForm = ({handleTaskSubmit, task, text: {headerText, buttonText}}) 
                     Low
                 </MenuItem>
             </TextField>
-            <DateTimeField 
+            <DateTimePicker
                 label="Deadline" 
                 name="taskdeadline"
                 defaultValue={dayjs(task.deadline)}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                style={{margin: 10}}/>
+                style={{padding: 20}}/>
             <TextField 
                 id="taskdescription" 
                 multiline

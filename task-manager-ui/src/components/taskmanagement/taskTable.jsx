@@ -6,13 +6,16 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import EditTaskModal from './EditTaskModal';
+import TableFilterPanel from "./tableFilterPanel";
 
 const TaskTable = () => {
     const [tableRows, setTableRows] = useState([])
-
     const [selectedTask, setSelectedTask] = useState({})
-
     const [isOpen, setOpen] = useState(false);
+
+
+    const [isCompleteFilter, setIsCompleteFilter] = useState(false)
+
 
     const handleEditTask = (task) => {
       setSelectedTask(task);
@@ -40,7 +43,11 @@ const TaskTable = () => {
     useEffect(() => {
         async function fetchTasks()
         {
-            await fetch("https://taskmanager-todo.azurewebsites.net/tasks", {
+            await fetch("https://taskmanager-todo.azurewebsites.net/tasks?" + new URLSearchParams(
+            {
+              isComplete: isCompleteFilter
+            }), 
+            {
                 method: "GET",
                 headers: {"Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
             })
@@ -57,12 +64,14 @@ const TaskTable = () => {
 
         }
         fetchTasks();
-    }, [])
+    }, [isCompleteFilter])
 
     
 
     return(
-    <><Container>
+    <>
+      <Container>
+        <TableFilterPanel isComplete={isCompleteFilter} setIsComplete={setIsCompleteFilter}/>
         <Table sx={{ minWidth: 650, backgroundColor: "#eeeeee" }} aria-label="task-table">
           <TableHead style={{ backgroundColor: "#d0d0d0" }}>
             <TableRow>
