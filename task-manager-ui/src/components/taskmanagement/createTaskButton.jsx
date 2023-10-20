@@ -20,13 +20,10 @@ const CreateTaskButton = () => {
         const task = {
             name: formData.get("taskname"),
             description: formData.get("taskdescription"),
-            deadline: dayjs(formData.get("taskdeadline")).toISOString(),
+            deadline: dayjs(formData.get("taskdeadline")),
             priority: formData.get("taskpriority")
         }
-
-        const x = JSON.stringify(task)
-
-        console.log(x)
+        console.log(formData.get("taskdeadline"));
 
         await fetch("https://taskmanager-todo.azurewebsites.net/task", {
             method: "POST",
@@ -41,7 +38,7 @@ const CreateTaskButton = () => {
             if(response.status === 200)
             {
                 setOpen(false)
-                window.location.reload();
+                //window.location.reload();
             }
         })
     }

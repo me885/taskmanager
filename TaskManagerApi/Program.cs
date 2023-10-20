@@ -108,6 +108,14 @@ app.MapDelete("/task/{name}", [Authorize]
 ) => handler.Delete(name, principal.GetUserIdFromClaims()));
 
 
+app.MapPost("/task/complete/{name}", [Authorize]
+(
+    [FromRoute] string name,
+    [FromServices] TaskHandler handler,
+    ClaimsPrincipal principal
+) => handler.Complete(name, principal.GetUserIdFromClaims()));
+
+
 //Auth endpoints
 app.MapPost("/auth/register", [AllowAnonymous]
 (

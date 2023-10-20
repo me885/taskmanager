@@ -47,12 +47,6 @@ public class TaskHandler
 
     public async Task<IResult> Update(string currentTaskName, TaskItemDto task, Guid userId)
     {
-        var existingTask = await taskDatabase.GetTaskByName(currentTaskName, userId);
-        if(existingTask is null)
-        {
-            return Results.NotFound($"No task with the name '{currentTaskName}' is assosiated with this user.");
-        }
-
         var existingTaskWithNewName = await taskDatabase.GetTaskByName(task.name, userId);
         if(existingTaskWithNewName is not null && currentTaskName != task.name)
         {
@@ -60,6 +54,12 @@ public class TaskHandler
         }
 
         var updatedTask = await taskDatabase.UpdateTask(currentTaskName, task, userId);
+
+        if(updatedTask is null)
+        {
+            return Results.NotFound($"No task with the name '{currentTaskName}' is assosiated with this user.");
+        }
+
 
         return Results.Ok(updatedTask!.ToDto());
     }
@@ -75,5 +75,17 @@ public class TaskHandler
         await taskDatabase.DeleteTask(taskName, userId);
 
         return Results.Ok(existingTask.ToDto());
+    }
+
+    public async Task<IResult> Complete(string taskName, Guid userId)
+    {
+        var updatedTask = await taskDatabase.MarkComplete(taskName, userId);
+
+        if(updatedTask is null)
+        {
+            return Results.NotFound($"No task with the name '{taskName}' is assosiated with this user.");
+        }
+
+        return Results.Ok(updatedTask!.ToDto());
     }
 }

@@ -15,6 +15,8 @@ public interface ITaskDatabase
     public Task DeleteTask(string name, Guid userId);
 
     public Task<TaskItem?> UpdateTask(string currentTaskName, TaskItemDto newTask, Guid userId);
+
+    public Task<TaskItem?> MarkComplete(string taskName, Guid userId);
 }
 
 public class TaskDatabase : ITaskDatabase
@@ -69,7 +71,7 @@ public class TaskDatabase : ITaskDatabase
 
         await dbConnection.ExecuteAsync(
             """
-            Update Users 
+            Update Tasks 
             SET Name = @NewName, Description = @description, Priority = @priority, Deadline = @deadline IsComplete = @isComplete
             WHERE Name = @CurrentName AND UserId = @UserId
             """,
@@ -82,6 +84,28 @@ public class TaskDatabase : ITaskDatabase
                 newTask.priority,
                 newTask.deadline,
                 newTask.isComplete
+            }
+        );
+
+        return taskItem;
+    }
+
+    public async Task<TaskItem?> MarkComplete(string taskName, Guid userId)
+    {
+        var taskItem = await GetTaskByName(taskName, userId);
+
+        if(taskItem is null) return null;
+
+        await dbConnection.ExecuteAsync(
+            """
+            Update Tasks 
+            SET Name = IsComplete = 1
+            WHERE Name = @CurrentName AND UserId = @UserId
+            """,
+            new
+            {
+                CurrentName = taskName,
+                UserId = userId
             }
         );
 
@@ -164,5 +188,10 @@ public class InMemoryTaskDb : ITaskDatabase
     public void Empty()
     {
         db = new List<TaskItem>();
+    }
+
+    public Task<TaskItem?> MarkComplete(string taskName, Guid userId)
+    {
+        throw new NotImplementedException();
     }
 }

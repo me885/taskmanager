@@ -14,7 +14,7 @@ const EditTaskModal = ({isOpen, setOpen, task}) =>
         const newTask = {
             name: formData.get("taskname"),
             description: formData.get("taskdescription"),
-            deadline: dayjs(formData.get("taskdeadline")).toISOString(),
+            deadline: dayjs(formData.get("taskdeadline")),
             priority: formData.get("taskpriority")
         }
 
