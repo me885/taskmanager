@@ -16,7 +16,7 @@ const TaskTable = () => {
 
     //filter state:
     const [isCompleteFilter, setIsCompleteFilter] = useState(false)
-    const [prioritiesFilter, setPrioritiesFilter] = useState(["high", "medium", "low"])
+    const [prioritiesFilter, setPrioritiesFilter] = useState(["High", "Medium", "Low"])
 
     const handleEditTask = (task) => {
       setSelectedTask(task);
