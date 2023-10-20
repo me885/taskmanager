@@ -72,7 +72,7 @@ public class TaskDatabase : ITaskDatabase
         await dbConnection.ExecuteAsync(
             """
             Update Tasks 
-            SET Name = @NewName, Description = @description, Priority = @priority, Deadline = @deadline IsComplete = @isComplete
+            SET Name = @NewName, Description = @description, Priority = @priority, Deadline = @deadline, IsComplete = @isComplete
             WHERE Name = @CurrentName AND OwnerId = @UserId
             """,
             new
