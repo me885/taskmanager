@@ -99,7 +99,7 @@ public class TaskDatabase : ITaskDatabase
         await dbConnection.ExecuteAsync(
             """
             Update Tasks 
-            SET Name = IsComplete = 1
+            SET IsComplete = 1
             WHERE Name = @CurrentName AND UserId = @UserId
             """,
             new

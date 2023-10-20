@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material"
+import { Container } from "@mui/material"
 import { useEffect, useState } from "react"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import EditTaskModal from './EditTaskModal';
 import TableFilterPanel from "./tableFilterPanel";
+import CompleteTaskButton from "./completeTaskButton"
 
 const TaskTable = () => {
     const [tableRows, setTableRows] = useState([])
@@ -20,24 +21,6 @@ const TaskTable = () => {
     const handleEditTask = (task) => {
       setSelectedTask(task);
       setOpen(true);
-    }
-
-    const handleDeleteTask = async (taskName) => {
-        await fetch(`https://taskmanager-todo.azurewebsites.net/task/${taskName}`, {
-            method: "DELETE",
-            headers: {"Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("jwt")}`},
-        })
-        .catch(error => {
-            console.log(error)
-            console.log("failed");
-        })
-        .then(async (response) => {
-            if(response.status === 200)
-            {
-              setOpen(false)
-              window.location.reload();
-            }
-        })
     }
 
     useEffect(() => {
@@ -97,12 +80,7 @@ const TaskTable = () => {
                 <TableCell align="right">{row.deadline}</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right">
-                  <Button 
-                  size="small" 
-                  variant="outlined" 
-                  onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleDeleteTask(row.name);}}>
-                    Complete
-                  </Button>
+                  <CompleteTaskButton taskName={row.name}/>
                 </TableCell>
               </TableRow>
             ))}
