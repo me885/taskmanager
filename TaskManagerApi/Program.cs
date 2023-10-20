@@ -82,8 +82,12 @@ app.MapGet("/tasks", [Authorize]
 (
     [FromServices] TaskHandler handler,
     [FromQuery] bool? isComplete,
+    [FromQuery] string? priorities,
     ClaimsPrincipal principal
-) => handler.GetAll(principal.GetUserIdFromClaims(), isComplete ?? false));
+) => handler.GetAll(
+    principal.GetUserIdFromClaims(), 
+    priorities?.Split(',') ?? Array.Empty<string>(), 
+    isComplete ?? false));
 
 app.MapPost("/task", [Authorize]
 (

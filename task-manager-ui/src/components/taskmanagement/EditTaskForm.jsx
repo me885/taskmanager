@@ -57,7 +57,7 @@ const EditTaskForm = ({handleTaskSubmit, task, text: {headerText, buttonText}}) 
                 name="taskdeadline"
                 defaultValue={dayjs(task.deadline)}
                 views={['year', 'month', 'day', 'hours', 'minutes']}
-                style={{padding: 10}}/>
+                style={{margin: 10}}/>
             <TextField 
                 id="taskdescription" 
                 multiline

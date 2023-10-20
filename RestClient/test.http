@@ -29,7 +29,7 @@ GET https://taskmanager-todo.azurewebsites.net/task/empty_dishwasher2 HTTP/1.1
 Authorization: Bearer {{authToken}}
 
 ###
-GET http://localhost:5218/tasks HTTP/1.1
+GET http://localhost:5218/tasks?isComplete=false&priorities=High%2CMedium%2CLow HTTP/1.1
 Authorization:Bearer {{authToken}}
 
 

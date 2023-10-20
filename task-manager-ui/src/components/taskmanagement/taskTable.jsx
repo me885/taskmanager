@@ -14,9 +14,9 @@ const TaskTable = () => {
     const [selectedTask, setSelectedTask] = useState({})
     const [isOpen, setOpen] = useState(false);
 
-
+    //filter state:
     const [isCompleteFilter, setIsCompleteFilter] = useState(false)
-
+    const [prioritiesFilter, setPrioritiesFilter] = useState(["high", "medium", "low"])
 
     const handleEditTask = (task) => {
       setSelectedTask(task);
@@ -28,7 +28,8 @@ const TaskTable = () => {
         {
             await fetch("https://taskmanager-todo.azurewebsites.net/tasks?" + new URLSearchParams(
             {
-              isComplete: isCompleteFilter
+              isComplete: isCompleteFilter,
+              priorities: prioritiesFilter
             }), 
             {
                 method: "GET",
@@ -47,14 +48,19 @@ const TaskTable = () => {
 
         }
         fetchTasks();
-    }, [isCompleteFilter])
+    }, [isCompleteFilter, prioritiesFilter])
 
     
 
     return(
     <>
       <Container>
-        <TableFilterPanel isComplete={isCompleteFilter} setIsComplete={setIsCompleteFilter}/>
+        <TableFilterPanel 
+        isComplete={isCompleteFilter} 
+        setIsComplete={setIsCompleteFilter}
+        priorities={prioritiesFilter}
+        setPriorities={setPrioritiesFilter}
+        />
         <Table sx={{ minWidth: 650, backgroundColor: "#eeeeee" }} aria-label="task-table">
           <TableHead style={{ backgroundColor: "#d0d0d0" }}>
             <TableRow>
@@ -80,7 +86,7 @@ const TaskTable = () => {
                 <TableCell align="right">{row.deadline}</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right">
-                  <CompleteTaskButton taskName={row.name}/>
+                  {isCompleteFilter ? "date completed" : <CompleteTaskButton taskName={row.name}/>}
                 </TableCell>
               </TableRow>
             ))}

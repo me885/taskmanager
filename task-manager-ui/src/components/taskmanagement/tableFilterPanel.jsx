@@ -1,10 +1,41 @@
-import { Select, MenuItem, FormControl, InputLabel } from "@mui/material"
+import { Select, MenuItem, FormControl, InputLabel, Checkbox, Box, Chip } from "@mui/material"
 
-const TableFilterPanel = ({isComplete, setIsComplete}) =>
+const TableFilterPanel = ({isComplete, setIsComplete, priorities, setPriorities}) =>
 {
     return(
-        <div style={{padding: 10, paddingBottom: 15}}>
-             <FormControl size="medium">
+        <div style={{paddingBottom: 15, display:"flex", flexDirection: "row"}}>
+             <FormControl size="large" style={{paddingRight: 10, minWidth: 200}}>
+                <InputLabel id="priority-select-label">Priorities</InputLabel>
+                <Select 
+                id="priority-select"
+                labelId="priority-select-label"
+                label="Task"
+                multiple
+                value={priorities}
+                onChange={(e) => setPriorities(e.target.value)}
+                renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                >
+                    <MenuItem key="High" value="High">
+                        <Checkbox checked={priorities.indexOf("High") > -1} />
+                        High
+                    </MenuItem>
+                    <MenuItem key="Medium" value="Medium">
+                        <Checkbox checked={priorities.indexOf("Medium") > -1} />
+                        Medium
+                    </MenuItem>
+                    <MenuItem key="Low" value="Low">
+                        <Checkbox checked={priorities.indexOf("Low") > -1} />
+                        Low
+                    </MenuItem>
+                </Select>
+            </FormControl>
+             <FormControl size="large" >
                 <InputLabel id="is-complete-select-label">Show</InputLabel>
                 <Select 
                 id="is-complete-select"
