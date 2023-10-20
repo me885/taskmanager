@@ -29,8 +29,8 @@ public class TaskDatabase : ITaskDatabase
     public async Task DeleteTask(string name, Guid userId)
     {
         await dbConnection.ExecuteAsync(
-            "DELETE FROM Tasks WHERE Name = @Name AND UserID = @UserId", 
-            new { Name = name, UserId = userId}
+            "DELETE FROM Tasks WHERE Name = @Name AND OwnerId = @OwnerId", 
+            new { Name = name, OwnerId = userId}
         );
     }
 
