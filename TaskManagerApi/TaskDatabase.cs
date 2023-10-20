@@ -73,7 +73,7 @@ public class TaskDatabase : ITaskDatabase
             """
             Update Tasks 
             SET Name = @NewName, Description = @description, Priority = @priority, Deadline = @deadline IsComplete = @isComplete
-            WHERE Name = @CurrentName AND UserId = @UserId
+            WHERE Name = @CurrentName AND OwnerId = @UserId
             """,
             new
             {
@@ -100,7 +100,7 @@ public class TaskDatabase : ITaskDatabase
             """
             Update Tasks 
             SET IsComplete = 1
-            WHERE Name = @CurrentName AND UserId = @UserId
+            WHERE Name = @CurrentName AND OwnerId = @UserId
             """,
             new
             {
