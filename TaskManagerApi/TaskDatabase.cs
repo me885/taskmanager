@@ -38,7 +38,7 @@ public class TaskDatabase : ITaskDatabase
 
     public async Task<TaskItem[]> GetAllTasks(Guid ownerId)
     {
-        var result = await dbConnection.QueryAsync<TaskItem>("SELECT * FROM Tasks");
+        var result = await dbConnection.QueryAsync<TaskItem>("SELECT * FROM Tasks WHERE OwnerId=@OwnerId", new {OwnerId = ownerId});
 
         return result.ToArray();
     }

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserContext from '../UserContext';
 import { useNavigate } from 'react-router';
 import TaskTable from '../components/taskmanagement/taskTable';
@@ -6,6 +6,7 @@ import CreateTaskButton from '../components/taskmanagement/createTaskButton';
 import { Container } from '@mui/material';
 
 const Home = () => {
+  const [isLoadingTable, setIsLoadingTable] = useState(true);
   const currentUser = useContext(UserContext)
   const navigate = useNavigate(); 
 
@@ -24,9 +25,9 @@ const Home = () => {
   return (
     <Container>
       <div style={{textAlign:'right', padding:24}}>
-        <CreateTaskButton />
+        <CreateTaskButton setTableLoading={setIsLoadingTable} />
       </div>
-      <TaskTable />
+      <TaskTable loading={isLoadingTable} setLoading={setIsLoadingTable} />
     </Container>
   );
 }

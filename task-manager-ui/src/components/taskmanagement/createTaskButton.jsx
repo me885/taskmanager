@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 
-const CreateTaskButton = () => {
+const CreateTaskButton = ({setTableLoading}) => {
     
     const [isOpen, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -23,7 +23,6 @@ const CreateTaskButton = () => {
             deadline: dayjs(formData.get("taskdeadline")),
             priority: formData.get("taskpriority")
         }
-        console.log(formData.get("taskdeadline"));
 
         await fetch("https://taskmanager-todo.azurewebsites.net/task", {
             method: "POST",
@@ -38,7 +37,7 @@ const CreateTaskButton = () => {
             if(response.status === 200)
             {
                 setOpen(false)
-                window.location.reload();
+                setTableLoading(true)
             }
         })
     }

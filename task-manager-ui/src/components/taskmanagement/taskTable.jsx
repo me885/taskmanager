@@ -1,4 +1,4 @@
-import { Container } from "@mui/material"
+import { Container, Skeleton } from "@mui/material"
 import { useEffect, useState } from "react"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,7 +9,7 @@ import EditTaskModal from './EditTaskModal';
 import TableFilterPanel from "./tableFilterPanel";
 import CompleteTaskButton from "./completeTaskButton"
 
-const TaskTable = () => {
+const TaskTable = ({loading, setLoading}) => {
     const [tableRows, setTableRows] = useState([])
     const [selectedTask, setSelectedTask] = useState({})
     const [isOpen, setOpen] = useState(false);
@@ -43,12 +43,13 @@ const TaskTable = () => {
                 {
                     const taskList = await response.json();
                     setTableRows(taskList);
+                    setLoading(false)
                 }
             })
 
         }
         fetchTasks();
-    }, [isCompleteFilter, prioritiesFilter])
+    }, [isCompleteFilter, prioritiesFilter, loading, setLoading])
 
     
 
@@ -80,13 +81,19 @@ const TaskTable = () => {
                 hover
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {loading ? <Skeleton /> : row.name}
                 </TableCell>
-                <TableCell align="right">{row.priority}</TableCell>
-                <TableCell align="right">{row.deadline}</TableCell>
-                <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right">
-                  {isCompleteFilter ? "date completed" : <CompleteTaskButton taskName={row.name}/>}
+                  {loading ? <Skeleton /> : row.priority}
+                </TableCell>
+                <TableCell align="right">
+                  {loading ? <Skeleton /> : row.deadline}
+                </TableCell>
+                <TableCell align="right">
+                  {loading ? <Skeleton /> : row.description}
+                </TableCell>
+                <TableCell align="right">
+                  {loading ? <Skeleton /> : isCompleteFilter ? "date completed" : <CompleteTaskButton taskName={row.name}/>}
                 </TableCell>
               </TableRow>
             ))}

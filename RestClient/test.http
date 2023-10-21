@@ -1,4 +1,4 @@
-@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIlVzZXJOYW1lIjoic2FtcGxlMiIsIm5iZiI6MTY5NzgwNDQzMiwiZXhwIjoxNjk3ODI2MDMyLCJpYXQiOjE2OTc4MDQ0MzIsImlzcyI6IlRhc2tNYW5hZ2VyIiwiYXVkIjoiVGFza01hbmFnZXIifQ.vOoD8DmTssjKzEY0FU4bJGVBzix4NrZ_PE4vIw3DU1QXOzEePd3YpgPq2TOPYmfuV8c_2GRGTALv0XbZJnBhNg
+@authToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsIlVzZXJOYW1lIjoic2FtcGxlMiIsIm5iZiI6MTY5NzgyODE5MywiZXhwIjoxNjk3ODQ5NzkzLCJpYXQiOjE2OTc4MjgxOTMsImlzcyI6IlRhc2tNYW5hZ2VyIiwiYXVkIjoiVGFza01hbmFnZXIifQ.HdH2PyzWCHQjMmMWlKRw3KWWbhx5modz-2qPHvRKFLzBoDGN_uePprY9uzhf6wXbJOlMa8QImFPnoPT9ufU5qA
 
 @url = https://taskmanager-todo.azurewebsites.net
 @localUrl = http://localhost:5218/
@@ -46,7 +46,7 @@ content-type: application/json
 }
 
 ###
-PUT http://localhost:5218/task/empty_dishwasher2 HTTP/1.1
+PUT http://localhost:5218/task/task3 HTTP/1.1
 Authorization: Bearer {{authToken}}
 content-type: application/json
 
