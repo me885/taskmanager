@@ -1,6 +1,6 @@
 import { Select, MenuItem, FormControl, InputLabel, Checkbox, Box, Chip } from "@mui/material"
 
-const TableFilterPanel = ({isComplete, setIsComplete, priorities, setPriorities}) =>
+const TableFilterPanel = ({isComplete, setIsComplete, priorities, setPriorities, setTableLoading}) =>
 {
     return(
         <div style={{paddingBottom: 15, display:"flex", flexDirection: "row"}}>
@@ -12,7 +12,11 @@ const TableFilterPanel = ({isComplete, setIsComplete, priorities, setPriorities}
                 label="Task"
                 multiple
                 value={priorities}
-                onChange={(e) => setPriorities(e.target.value)}
+                onChange={(e) => 
+                {
+                    setPriorities(e.target.value)
+                    setTableLoading(true)
+                }}
                 renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => (
@@ -42,7 +46,11 @@ const TableFilterPanel = ({isComplete, setIsComplete, priorities, setPriorities}
                 labelId="is-complete-select-label"
                 label="Task"
                 value={isComplete}
-                onChange={(e) => setIsComplete(e.target.value)}
+                onChange={(e) => 
+                {
+                    setIsComplete(e.target.value)
+                    setTableLoading(true)
+                }}
                 >
                     <MenuItem value={false}>Outstanding</MenuItem>
                     <MenuItem value={true}>Completed</MenuItem>

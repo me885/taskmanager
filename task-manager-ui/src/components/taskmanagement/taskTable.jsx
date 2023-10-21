@@ -61,6 +61,7 @@ const TaskTable = ({loading, setLoading}) => {
         setIsComplete={setIsCompleteFilter}
         priorities={prioritiesFilter}
         setPriorities={setPrioritiesFilter}
+        setTableLoading={setLoading}
         />
         <Table sx={{ minWidth: 650, backgroundColor: "#eeeeee" }} aria-label="task-table">
           <TableHead style={{ backgroundColor: "#d0d0d0" }}>
@@ -81,26 +82,26 @@ const TaskTable = ({loading, setLoading}) => {
                 hover
               >
                 <TableCell component="th" scope="row">
-                  {loading ? <Skeleton /> : row.name}
+                  {loading ? <Skeleton/> : row.name}
                 </TableCell>
                 <TableCell align="right">
-                  {loading ? <Skeleton /> : row.priority}
+                  {loading ? <Skeleton/> : row.priority}
                 </TableCell>
                 <TableCell align="right">
-                  {loading ? <Skeleton /> : row.deadline}
+                  {loading ? <Skeleton/> : row.deadline}
                 </TableCell>
                 <TableCell align="right">
-                  {loading ? <Skeleton /> : row.description}
+                  {loading ? <Skeleton/> : row.description}
                 </TableCell>
                 <TableCell align="right">
-                  {loading ? <Skeleton /> : isCompleteFilter ? "date completed" : <CompleteTaskButton taskName={row.name}/>}
+                  {isCompleteFilter ? "date completed" : <CompleteTaskButton taskName={row.name} setTableLoading={setLoading}/>}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </Container>
-      <EditTaskModal isOpen={isOpen} setOpen={setOpen} task={selectedTask} />
+      <EditTaskModal isOpen={isOpen} setOpen={setOpen} task={selectedTask} setTableLoading={setLoading} />
       </>)
 }
 

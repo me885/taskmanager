@@ -1,6 +1,6 @@
 import { Button } from "@mui/material"
 
-const CompleteTaskButton = ({taskName}) => 
+const CompleteTaskButton = ({taskName, setTableLoading}) => 
 {
     const handleCompleteTask = async (name) => {
         await fetch(`https://taskmanager-todo.azurewebsites.net/task/complete/${name}`, {
@@ -14,7 +14,7 @@ const CompleteTaskButton = ({taskName}) =>
         .then(async (response) => {
             if(response.status === 200)
             {
-              window.location.reload();
+                setTableLoading(true)
             }
         })
     }

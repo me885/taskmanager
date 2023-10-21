@@ -4,7 +4,7 @@ import { Modal } from "@mui/material"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import dayjs from "dayjs"
 
-const EditTaskModal = ({isOpen, setOpen, task}) => 
+const EditTaskModal = ({isOpen, setOpen, task, setTableLoading}) => 
 {
     const handleTaskEdit = async (event) =>
     {
@@ -31,7 +31,7 @@ const EditTaskModal = ({isOpen, setOpen, task}) =>
             if(response.status === 200)
             {
                 setOpen(false)
-                window.location.reload();
+                setTableLoading(true)
             }
         })
     }
